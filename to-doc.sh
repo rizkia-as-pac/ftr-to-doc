@@ -22,7 +22,7 @@ fi
 PREFIX_ESCAPED=$(echo "$PREFIX" | sed 's/[]\/$*.^[]/\\&/g')
 
 # Cari baris yang mengandung "<prefix> out:" dan ekstrak path output
-OUTPUT_PATH=$(grep -oP "^$PREFIX_ESCAPED out:\s*\"\K[^\"]+" "$INPUT_FILE")
+OUTPUT_PATH=$(grep -oP "^\s*$PREFIX_ESCAPED out:\s*\"\K[^\"]+" "$INPUT_FILE")
 
 # Jika path output tidak ditemukan, berikan pesan error
 if [[ -z "$OUTPUT_PATH" ]]; then
@@ -34,7 +34,7 @@ fi
 mkdir -p "$(dirname "$OUTPUT_PATH")"
 
 # Hapus "<prefix>" di awal baris dan hapus baris "<prefix> out: ..."
-grep -v "^$PREFIX_ESCAPED out:" "$INPUT_FILE" | sed -E "s/^$PREFIX_ESCAPED ?//" > "$OUTPUT_PATH"
+grep -v "^\s*$PREFIX_ESCAPED out:" "$INPUT_FILE" | sed -E "s/^\s*$PREFIX_ESCAPED ?//" > "$OUTPUT_PATH"
 
 echo "Berhasil diproses! Hasil disimpan di: $OUTPUT_PATH"
 
